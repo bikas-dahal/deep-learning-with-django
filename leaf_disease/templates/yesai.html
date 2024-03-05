@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Classifier</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to bottom, #ff6ec4, #ff75a0);
+        margin: 0;
+        padding: 0;
+        color: #333;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      .container {
+        max-width: 800px;
+        padding: 40px;
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 8px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        animation: slide-up 0.5s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .section {
+        flex: 1;
+        position: relative;
+        padding: 20px;
+      }
+
+      .form {
+        margin-right: 20px;
+      }
+
+      .result {
+        margin-left: 20px;
+      }
+
+      h1 {
+        color: #333;
+        margin-bottom: 30px;
+        font-size: 36px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+      }
+
+      form {
+        margin-bottom: 20px;
+      }
+
+      button {
+        background-color: #ff6ec4;
+        color: #fff;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        font-size: 16px;
+      }
+
+      button:hover {
+        background-color: #e83e8c;
+      }
+
+      p {
+        color: #333;
+        margin-bottom: 20px;
+        font-size: 18px;
+      }
+
+      ul {
+        list-style-type: none;
+        padding: 0;
+        margin-top: 0;
+      }
+
+      li {
+        margin-bottom: 10px;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+      }
+
+      li:before {
+        content: "▹";
+        color: #ff6ec4;
+        display: inline-block;
+        width: 1em;
+        margin-right: 5px;
+      }
+
+      li span {
+        color: #ff6ec4;
+        font-weight: bold;
+      }
+
+      #image-preview {
+        max-width: 100%;
+        margin-bottom: 20px;
+        display: none;
+      }
+
+      .divider {
+        position: absolute;
+        left: 95%;
+        top: 0;
+        transform: translateX(0%);
+        width: 2px;
+        height: calc(100% - 40px);
+        background-color: #ff6ec4;
+        animation: divider-animation 2s infinite alternate;
+        z-index: 1;
+      }
+
+      @keyframes divider-animation {
+        from {
+          height: calc(100% - 40px);
+        }
+        to {
+          height: 0;
+        }
+      }
+
+      .result {
+        padding-top: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="section form">
+        <h1>Image Classifier</h1>
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <input
+            type="file"
+            id="image-input"
+            name="image"
+            accept="image/*"
+            onchange="previewImage(event)"
+          />
+          <br /><br />
+          <img id="image-preview" src="#" alt="Preview Image" />
+          <br /><br />
+          <button type="submit">Submit</button>
+        </form>
+        <div class="divider"></div>
+      </div>
+      <div class="section result">
+        {% if prediction_message %}
+        <p>{{ prediction_message }}</p>
+        {% endif %} {% if top_diseases %}
+        <h2>Top 3 Diseases Detected</h2>
+        <ul>
+          {% for disease, probability in top_diseases %}
+          <li>{{ disease }} (Probability: <span>{{ probability }}</span>)</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+    </div>
+    <script>
+      function previewImage(event) {
+        var preview = document.getElementById("image-preview");
+        var file = event.target.files[0];
+        var reader = new FileReader();
+
+        reader.onload = function () {
+          var img = document.createElement("img");
+          img.setAttribute("src", reader.result);
+          img.setAttribute("class", "preview-image");
+          preview.innerHTML = "";
+          preview.appendChild(img);
+        };
+
+        if (file) {
+          reader.readAsDataURL(file);
+        }
+      }
+    </script>
+  </body>
+</html>

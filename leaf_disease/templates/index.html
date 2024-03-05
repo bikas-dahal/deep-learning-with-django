@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Image Classifier</title>
+</head>
+<body>
+    <h1>Image Classifier</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="image">Upload Image:</label>
+        <input type="file" name="image" id="image">
+        <button type="submit">Submit</button>
+    </form>
+    {% if prediction %}
+        <p>Prediction: {{ prediction }}</p>
+        {% if message %}
+            <p>{{ message }}</p>
+        {% endif %}
+    {% endif %}
+</body>
+</html>

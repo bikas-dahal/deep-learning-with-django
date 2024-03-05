@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Classify Image Result</title>
+    {% comment %} <style>
+        body {
+          font-family: Arial, sans-serif;
+          margin: 0;
+          padding: 0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          background: linear-gradient(to bottom, #00000a, #0077cc);
+        }
+  
+        .container {
+          max-width: 900px;
+          padding: 40px;
+          background-color: rgba(255, 255, 255, 0.9);
+          border-radius: 8px;
+          box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          animation: slide-up 0.5s ease;
+          position: relative;
+          overflow: hidden;
+        }
+  
+        .section {
+          flex: 1;
+          position: relative;
+          padding: 20px;
+        }
+  
+        .form {
+          margin-right: 20px;
+        }
+  
+        .result {
+          margin-left: 20px;
+        }
+  
+        h1 {
+          color: #333;
+          margin-bottom: 30px;
+          font-size: 36px;
+          letter-spacing: 1px;
+          text-transform: uppercase;
+          background: -webkit-linear-gradient(#00000a, #0077cc);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+  
+        form {
+          margin-bottom: 20px;
+        }
+  
+        button {
+          background: linear-gradient(to right, #1f6ec4, #ff75a0);
+          color: #fff;
+          border: none;
+          padding: 12px 24px;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 16px;
+          transition: background 0.3s ease, transform 0.3s ease;
+        }
+  
+        button:hover {
+          background: linear-gradient(to right, #e83e8c, #1f6ec4);
+          transform: scale(1.05);
+        }
+  
+        button:active {
+          transform: scale(0.95);
+        }
+  
+        p {
+          color: #333;
+          margin-bottom: 20px;
+          font-size: 18px;
+        }
+  
+        ol {
+          list-style-type: none;
+          padding: 0;
+          margin-top: 0;
+        }
+  
+        li {
+          margin-bottom: 10px;
+          font-size: 18px;
+          display: flex;
+          align-items: center;
+          background: linear-gradient(to right, #ff75a0, #0077cc);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          transition: background-color 0.3s ease;
+        }
+  
+        li:hover {
+          background: linear-gradient(to right, #0077cc, #ff75a0);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+  
+        li:before {
+          content: "▹";
+          color: #ff6ec4;
+          display: inline-block;
+          width: 1em;
+          margin-right: 5px;
+        }
+  
+        li span {
+          color: #ff6ec4;
+          font-weight: bold;
+        }
+  
+        .divider {
+          position: absolute;
+          left: 100%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          width: 6px;
+          height: calc(100% - 40px);
+          background: linear-gradient(to bottom, #0077cc, #ff75a0);
+          transition: height 0.3s ease;
+        }
+  
+        .divider:hover {
+          background: linear-gradient(to bottom, #ff75a0, #0077cc);
+          height: 100%;
+          transition: height 0.3s ease;
+        }
+  
+        .probability-bar {
+          background: linear-gradient(to right, #2c3e50, #0077cc);
+          height: 20px;
+          margin-bottom: 5px;
+          border-radius: 5px;
+        }
+  
+        @keyframes divider-animation {
+          from {
+            height: calc(100% - 40px);
+          }
+          to {
+            height: 0;
+          }
+        }
+      </style> {% endcomment %}
+</head>
+<body>
+    <h1>Classification Result</h1>
+    {% if top_diseases %}
+    <h2>Top 3 Predicted Diseases</h2>
+    <ol>
+        {% for disease, probability in top_diseases %}
+        <li>{{ disease }}: {{ probability }}</li>
+        {% endfor %}
+    </ol>
+    {% endif %}
+</body>
+</html>

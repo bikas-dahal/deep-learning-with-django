@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaf Disease Detection</title>
+</head>
+<body>
+    <h1>Leaf Disease Detection</h1>
+    <form method="post" action="{% url 'process_image' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="image">Upload Image:</label>
+        <input type="file" id="image" name="image" accept="image/*" required>
+        <button type="submit">Detect Disease</button>
+    </form>
+    
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
+    
+    {% if top_diseases %}
+        <h2>Top Predicted Diseases:</h2>
+        <ul>
+            {% for disease, probability in top_diseases.items %}
+                <li>{{ disease }}: {{ probability }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>
